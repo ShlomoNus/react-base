@@ -3,6 +3,9 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
+import eslintReact from "eslint-plugin-react";
+import prettierPlugin from "eslint-plugin-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -16,8 +19,27 @@ export default tseslint.config(
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
+      "@typescript-eslint": tseslint.plugin,
+      react: eslintReact,
+      prettier: prettierPlugin,
     },
-
+    ignores: [
+      "dist",
+      "node_modules",
+      "coverage",
+      "eslint.config.js",
+      "src/components/ui",
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2020,
+      },
+      parserOptions: {
+        project: ["tsconfig.json", "tsconfig.node.json", "tsconfig.app.json"],
+      },
+    },
     rules: {
       ...reactHooks.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
@@ -136,5 +158,5 @@ export default tseslint.config(
       "@typescript-eslint/no-misused-promises": "error",
       "@typescript-eslint/promise-function-async": "error",
     },
-  }
+  },
 );
