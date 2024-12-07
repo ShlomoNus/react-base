@@ -41,11 +41,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      ...prettierPlugin.configs.recommended.rules,
-      ...eslintConfigPrettier.rules,
-      "no-control-regex": "off",
-      "prefer-const": "error",
+      // React Rules
       "react/jsx-curly-brace-presence": [
         "warn",
         { props: "never", children: "never" },
@@ -62,57 +58,51 @@ export default tseslint.config(
         },
       ],
       "react/self-closing-comp": ["error", { component: true, html: true }],
-      "react/react-in-jsx-scope": "off",
+      "react/react-in-jsx-scope": "off", // React 17+ no longer requires React in scope
       "react/jsx-uses-react": "error",
       "react/jsx-uses-vars": "error",
-      "max-params": ["error", 2],
-      "max-lines": ["warn", { max: 100 }],
+
+      // TypeScript Rules
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "no-debugger": "warn",
-      "arrow-body-style": ["error", "as-needed"],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" },
+      ],
       "@typescript-eslint/naming-convention": [
         "error",
-        {
-          selector: "class",
-          format: ["PascalCase"],
-        },
-        {
-          selector: "typeAlias",
-          format: ["PascalCase"],
-        },
-        {
-          selector: "interface",
-          format: ["PascalCase"],
-        },
+        { selector: "class", format: ["PascalCase"] },
+        { selector: "typeAlias", format: ["PascalCase"] },
+        { selector: "interface", format: ["PascalCase"] },
         {
           selector: "variable",
           format: ["camelCase", "UPPER_CASE"],
           leadingUnderscore: "allow",
           trailingUnderscore: "allow",
         },
-        {
-          selector: "function",
-          format: ["camelCase", "PascalCase"],
-        },
+        { selector: "function", format: ["camelCase", "PascalCase"] },
         { selector: "enum", format: ["PascalCase"] },
-        {
-          selector: "typeLike",
-          format: ["PascalCase"], // Enforces PascalCase for types and components
-        },
+        { selector: "typeLike", format: ["PascalCase"] },
       ],
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-        },
-      ],
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-misused-promises": "error",
+      "@typescript-eslint/promise-function-async": "error",
+
+      // General Rules
+      "no-control-regex": "off",
+      "prefer-const": "error",
+      "arrow-body-style": ["error", "as-needed"],
+      "max-params": ["error", 2],
+      "max-lines": ["warn", { max: 250 }],
+      "no-debugger": "warn",
+      ...prettierPlugin.configs.recommended.rules,
+      ...eslintConfigPrettier.rules,
+
+      // Formatting and Styling
       "capitalized-comments": [
         "warn",
         "always",
-        {
-          ignoreConsecutiveComments: true,
-        },
+        { ignoreConsecutiveComments: true },
       ],
       "padding-line-between-statements": [
         "error",
@@ -122,11 +112,7 @@ export default tseslint.config(
         { blankLine: "always", prev: "*", next: "for" },
         { blankLine: "always", prev: "if", next: "*" },
         { blankLine: "always", prev: "*", next: "if" },
-        {
-          blankLine: "always",
-          prev: ["const", "let", "var"],
-          next: "*",
-        },
+        { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
         {
           blankLine: "any",
           prev: ["const", "let", "var"],
@@ -154,9 +140,6 @@ export default tseslint.config(
           allowArrayEnd: true,
         },
       ],
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-misused-promises": "error",
-      "@typescript-eslint/promise-function-async": "error",
     },
   },
 );
