@@ -20,6 +20,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-df7b47d-20241124",
     "jotai": "^2.10.3",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",

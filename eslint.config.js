@@ -6,6 +6,7 @@ import tseslint from "typescript-eslint";
 import eslintReact from "eslint-plugin-react";
 import prettierPlugin from "eslint-plugin-prettier";
 import eslintConfigPrettier from "eslint-config-prettier";
+import reactCompiler from "eslint-plugin-react-compiler";
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -14,12 +15,25 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2020,
+      },
+      parserOptions: {
+        project: ["tsconfig.json", "tsconfig.node.json", "tsconfig.app.json"],
+      },
+    },
+    settings: {
+      react: {
+        version: "detect", 
+      },
     },
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       "@typescript-eslint": tseslint.plugin,
+      "react-compiler": reactCompiler,
       react: eslintReact,
       prettier: prettierPlugin,
     },
@@ -30,16 +44,6 @@ export default tseslint.config(
       "eslint.config.js",
       "src/components/ui",
     ],
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.es2020,
-      },
-      parserOptions: {
-        project: ["tsconfig.json", "tsconfig.node.json", "tsconfig.app.json"],
-      },
-    },
     rules: {
       // React Rules
       "react/jsx-curly-brace-presence": [
@@ -57,8 +61,9 @@ export default tseslint.config(
           unnamedComponents: "function-expression",
         },
       ],
+      "react-compiler/react-compiler": "error",
       "react/self-closing-comp": ["error", { component: true, html: true }],
-      "react/react-in-jsx-scope": "off", // React 17+ no longer requires React in scope
+      "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "error",
       "react/jsx-uses-vars": "error",
 
