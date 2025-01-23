@@ -1,13 +1,7 @@
 import "./App.css";
 
 function App() {
-
-
-  return (
-    <>
-
-    </>
-  );
+  return <>dnakdnak</>;
 }
 
 export default App;
