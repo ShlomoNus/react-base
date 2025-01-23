@@ -15,6 +15,7 @@
     "fix": "npm run lint-fix && npm run prettier-fix"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
     "axios": "^1.7.9",
     "babel-plugin-react-compiler": "^19.0.0-beta-df7b47d-20241124",
     "class-variance-authority": "^0.7.1",
