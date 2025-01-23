@@ -42,7 +42,7 @@ export default tseslint.config(
       "node_modules",
       "coverage",
       "eslint.config.js",
-      "src/components/ui",
+      "src/_components/ui",
     ],
     rules: {
       // React Rules
