@@ -9,7 +9,15 @@ import eslintConfigPrettier from "eslint-config-prettier";
 import reactCompiler from "eslint-plugin-react-compiler";
 
 export default tseslint.config(
-  { ignores: ["dist"] },
+  {
+    ignores: [
+      "dist",
+      "node_modules",
+      "coverage",
+      "eslint.config.js",
+      "src/components/_ui",
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
@@ -42,7 +50,7 @@ export default tseslint.config(
       "node_modules",
       "coverage",
       "eslint.config.js",
-      "src/_components/ui",
+      "src/components/_ui",
     ],
     rules: {
       // React Rules
