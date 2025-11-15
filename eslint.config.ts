@@ -3,6 +3,7 @@ import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
 import importPlugin from "eslint-plugin-import-x";
 import globals from "globals";
+import reactPlugin from "eslint-plugin-react"
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import reactCompiler from "eslint-plugin-react-compiler";
@@ -10,7 +11,13 @@ import reactCompiler from "eslint-plugin-react-compiler";
 export default defineConfig([
   // --- ignores ---
   {
-    ignores: ["dist", "node_modules", "coverage", "eslint.config.js", "eslint.config.ts"]
+    ignores: [  "dist",
+    "node_modules",
+    "coverage",
+    "eslint.config.js",
+    "eslint.config.ts",
+    "tailwind.config.js",         
+    "postcss.config.js"]
   },
 
   // --- base config (applies to all files unless overridden) ---
@@ -19,10 +26,13 @@ export default defineConfig([
       parser: tseslint.parser,
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        projectService: true
+        projectService: true,
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
       globals: {
-        ...globals.node,
+        ...globals.browser,
         ...globals.es2025
       }
     },
@@ -30,7 +40,7 @@ export default defineConfig([
       "@typescript-eslint": tseslint.plugin,
       "@stylistic": stylistic,
       import: importPlugin as any,
-      "react-hooks": reactHooks as any,
+      react: reactPlugin,
       "react-refresh": reactRefresh,
       "react-compiler": reactCompiler
     },
@@ -152,7 +162,7 @@ export default defineConfig([
           }
         },
         { selector: "variable", format: ["camelCase", "UPPER_CASE"] },
-        { selector: "function", format: ["camelCase"] },
+        { selector: "function", format: ["camelCase","PascalCase"] }, // allow PascalCase for React components
         { selector: "method", format: ["camelCase"] },
         { selector: "memberLike", format: ["camelCase"] },
         {
@@ -185,7 +195,7 @@ export default defineConfig([
       ],
 
       // ---- react-ish rules ----
-      "jsx-curly-brace-presence": [
+      "@stylistic/jsx-curly-brace-presence": [
         "warn",
         { props: "never", children: "never" }
       ],
@@ -201,8 +211,9 @@ export default defineConfig([
         "warn",
         { allowConstantExport: true }
       ],
-
+      "@stylistic/jsx-pascal-case": "error",
       "react-compiler/react-compiler": "error"
     }
-  }
+  },
+  reactHooks.configs.flat.recommended,
 ]);
