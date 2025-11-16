@@ -1,7 +1,7 @@
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
-import importPlugin from "eslint-plugin-import-x";
+import { importX } from 'eslint-plugin-import-x'
 import globals from "globals";
 import reactPlugin from "eslint-plugin-react"
 import reactHooks from "eslint-plugin-react-hooks";
@@ -9,15 +9,24 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import reactCompiler from "eslint-plugin-react-compiler";
 
 export default defineConfig([
+  // --- presets ---
+  
+  reactHooks.configs.flat.recommended,
+  reactCompiler.configs.recommended,
+  reactRefresh.configs.recommended,
+  reactPlugin.configs.flat.recommended,
+  reactPlugin.configs.flat['jsx-runtime'],
+  stylistic.configs.recommended,
+  tseslint.configs.recommended,
   // --- ignores ---
   {
-    ignores: [  "dist",
-    "node_modules",
-    "coverage",
-    "eslint.config.js",
-    "eslint.config.ts",
-    "tailwind.config.js",         
-    "postcss.config.js"]
+    ignores: ["dist",
+      "node_modules",
+      "coverage",
+      "eslint.config.js",
+      "eslint.config.ts",
+      "tailwind.config.js",
+      "postcss.config.js"]
   },
 
   // --- base config (applies to all files unless overridden) ---
@@ -36,14 +45,6 @@ export default defineConfig([
         ...globals.es2025
       }
     },
-    plugins: {
-      "@typescript-eslint": tseslint.plugin,
-      "@stylistic": stylistic,
-      import: importPlugin as any,
-      react: reactPlugin,
-      "react-refresh": reactRefresh,
-      "react-compiler": reactCompiler
-    },
     settings: {
       "import/resolver": {
         typescript: {
@@ -56,6 +57,15 @@ export default defineConfig([
     }
   },
 
+  {
+    plugins: {
+      'import-x': importX as any,
+    },
+    extends: ['import-x/flat/recommended'],
+    rules: {
+      'import-x/no-dynamic-require': 'warn',
+    },
+  },
   // --- rules for your source files ---
   {
     files: ["src/**/*.{ts,tsx}"],
@@ -120,7 +130,7 @@ export default defineConfig([
       // --- misc ---
       "capitalized-comments": ["warn", "always", { ignoreConsecutiveComments: true }],
 
-      "import/order": [
+      "import-x/order": [
         "error",
         {
           groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
@@ -150,5 +160,4 @@ export default defineConfig([
       "react-compiler/react-compiler": "error"
     }
   },
-  reactHooks.configs.flat.recommended,
 ]);
